@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Traffic Prediction</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+<h1>Traffic Risk Predictor</h1>
+
+<div class="navlinks">
+<a href="index.html">Home</a>
+<a href="predict.html">Prediction</a>
+</div>
+
+</div>
+
+
+<div class="container">
+
+<div class="card">
+
+<h2>Enter Traffic Parameters</h2>
+
+<form id="predictionForm">
+
+<label>City</label>
+<input type="text" id="city" placeholder="Enter City Name">
+
+<label>Time of Day</label>
+
+<select id="time">
+<option>Morning</option>
+<option>Afternoon</option>
+<option>Night</option>
+</select>
+
+
+<label>Weather</label>
+
+<select id="weather">
+<option>Clear</option>
+<option>Rainy</option>
+<option>Fog</option>
+</select>
+
+
+<label>Road Type</label>
+
+<select id="road">
+<option>Highway</option>
+<option>Urban</option>
+<option>Rural</option>
+</select>
+
+
+<label>Traffic Density</label>
+
+<select id="traffic">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<button type="submit">
+Predict Risk
+</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h2>Risk Result</h2>
+<div id="riskBox"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Risk Zone Map</h2>
+<div id="map"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Risk Analytics</h2>
+<canvas id="chart"></canvas>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

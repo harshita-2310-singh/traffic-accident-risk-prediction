@@ -3,114 +3,89 @@
 
 <head>
 
-<title>Traffic Prediction</title>
+  <title>Traffic Risk Prediction</title>
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet"
-href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
 <body>
 
-<div class="navbar">
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <h1>Traffic Risk Predictor</h1>
 
-<h1>Traffic Risk Predictor</h1>
-
-<div class="navlinks">
-<a href="index.html">Home</a>
-<a href="predict.html">Prediction</a>
-</div>
-
-</div>
-
-
-<div class="container">
-
-<div class="card">
-
-<h2>Enter Traffic Parameters</h2>
-
-<form id="predictionForm">
-
-<label>City</label>
-<input type="text" id="city" placeholder="Enter City Name">
-
-<label>Time of Day</label>
-
-<select id="time">
-<option>Morning</option>
-<option>Afternoon</option>
-<option>Night</option>
-</select>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="predict.html">Prediction</a>
+    </div>
+  </div>
 
 
-<label>Weather</label>
+  <!-- MAIN -->
+  <div class="container">
 
-<select id="weather">
-<option>Clear</option>
-<option>Rainy</option>
-<option>Fog</option>
-</select>
-
-
-<label>Road Type</label>
-
-<select id="road">
-<option>Highway</option>
-<option>Urban</option>
-<option>Rural</option>
-</select>
+    <!-- INFO CARD -->
+    <div class="card">
+      <h2>Select Location on Map</h2>
+      <p>Click anywhere on the map to automatically predict traffic risk based on real-time conditions.</p>
+    </div>
 
 
-<label>Traffic Density</label>
+    <!-- OPTIONAL CITY INPUT -->
+    <div class="card">
 
-<select id="traffic">
-<option>Low</option>
-<option>Medium</option>
-<option>High</option>
-</select>
+      <h2>Or Enter City (Optional)</h2>
 
-<button type="submit">
-Predict Risk
-</button>
+      <form id="predictionForm">
 
-</form>
+        <label>City</label>
+        <input type="text" id="city" placeholder="Enter City Name">
 
-</div>
+        <button type="submit">
+          Predict by City
+        </button>
 
+      </form>
 
-<div class="card">
-
-<h2>Risk Result</h2>
-<div id="riskBox"></div>
-
-</div>
+    </div>
 
 
-<div class="card">
+    <!-- RESULT -->
+    <div class="card">
+      <h2>Risk Result</h2>
+      <div id="riskBox">Click on map to predict risk</div>
+    </div>
 
-<h2>Risk Zone Map</h2>
-<div id="map"></div>
 
-</div>
+    <!-- MAP -->
+    <div class="card">
+      <h2>Risk Zone Map</h2>
+      <div id="map"></div>
+    </div>
 
 
-<div class="card">
+    <!-- CHART -->
+    <div class="card">
+      <h2>Risk Analytics</h2>
+      <canvas id="chart"></canvas>
+    </div>
 
-<h2>Risk Analytics</h2>
-<canvas id="chart"></canvas>
+  </div>
 
-</div>
 
-</div>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<script src="script.js"></script>
+  <!-- Script -->
+  <script src="script.js"></script>
 
 </body>
 

@@ -1,121 +1,176 @@
-let map = L.map('map').setView([20.5937,78.9629],5);
+document.addEventListener("DOMContentLoaded", function () {
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-maxZoom:19
-}).addTo(map);
+  console.log("Script loaded");
 
-let marker;
-let chart;
+  let map = L.map('map').setView([20.5937, 78.9629], 5);
 
-document.getElementById("predictionForm").addEventListener("submit", async function(e){
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+  }).addTo(map);
 
-e.preventDefault();
+  let marker;
+  let chart;
 
-const city = document.getElementById("city").value;
-const time = document.getElementById("time").value;
-const weather = document.getElementById("weather").value;
-const road_type = document.getElementById("road").value;
-const traffic_density = document.getElementById("traffic").value;
+  // =========================
+  // MAP CLICK → PREDICTION
+  // =========================
+  map.on("click", async function (e) {
 
+    const lat = e.latlng.lat;
+    const lon = e.latlng.lng;
 
-const res = await fetch("/api/predict",{
+    console.log("Clicked:", lat, lon);
 
-method:"POST",
+    try {
+      const res = await fetch("/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          lat,
+          lon,
+          time: "Day"
+        })
+      });
 
-headers:{
-"Content-Type":"application/json"
-},
+      const data = await res.json();
 
-body:JSON.stringify({
-city,
-time,
-weather,
-road_type,
-traffic_density
-})
+      showRisk(data.risk);
+      updateMap(lat, lon, data.risk);
+      loadChart();
+
+      if (data.risk === "High") {
+        alert("High Risk Area");
+      }
+
+    } catch (err) {
+      console.error("Map click error:", err);
+    }
+  });
+
+  // =========================
+  // FORM SUBMIT (CITY INPUT)
+  // =========================
+  const form = document.getElementById("predictionForm");
+
+  if (form) {
+    form.addEventListener("submit", async function (e) {
+
+      e.preventDefault();
+
+      const city = document.getElementById("city").value.trim();
+
+      if (!city) {
+        alert("Please enter a city");
+        return;
+      }
+
+      try {
+        // Convert city → lat/lon
+        const geo = await fetch(`https://nominatim.openstreetmap.org/search?city=${city}&format=json`);
+        const geoData = await geo.json();
+
+        if (!geoData.length) {
+          alert("City not found");
+          return;
+        }
+
+        const lat = geoData[0].lat;
+        const lon = geoData[0].lon;
+
+        const res = await fetch("/api/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            lat,
+            lon,
+            time: "Day"
+          })
+        });
+
+        const data = await res.json();
+
+        showRisk(data.risk);
+        map.setView([lat, lon], 12);
+        updateMap(lat, lon, data.risk);
+        loadChart();
+
+        if (data.risk === "High") {
+          alert("High Risk Area");
+        }
+
+      } catch (err) {
+        console.error("City submit error:", err);
+      }
+
+    });
+  }
+
+  // =========================
+  // SHOW RESULT
+  // =========================
+  function showRisk(risk) {
+    const box = document.getElementById("riskBox");
+
+    box.innerHTML = "Predicted Risk: " + risk;
+
+    if (risk === "High") box.style.background = "red";
+    else if (risk === "Medium") box.style.background = "orange";
+    else box.style.background = "green";
+  }
+
+  // =========================
+  // UPDATE MAP
+  // =========================
+  function updateMap(lat, lon, risk) {
+
+    if (marker) marker.remove();
+
+    let color = "green";
+
+    if (risk === "High") color = "red";
+    if (risk === "Medium") color = "orange";
+
+    marker = L.circleMarker([lat, lon], {
+      color: color,
+      radius: 10
+    }).addTo(map);
+  }
+
+  // =========================
+  // LOAD CHART (FROM DB)
+  // =========================
+  async function loadChart() {
+
+    try {
+      const res = await fetch("/api/analytics");
+      const data = await res.json();
+
+      const ctx = document.getElementById("chart");
+
+      if (chart) chart.destroy();
+
+      chart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Low", "Medium", "High"],
+          datasets: [{
+            data: [data.low, data.medium, data.high]
+          }]
+        }
+      });
+
+    } catch (err) {
+      console.error("Chart error:", err);
+    }
+  }
+
+  // =========================
+  // LOAD CHART ON PAGE LOAD
+  // =========================
+  loadChart();
 
 });
-
-const data = await res.json();
-
-showRisk(data.risk);
-
-updateMap(city,data.risk);
-
-loadChart();
-
-});
-
-
-function showRisk(risk){
-
-const box = document.getElementById("riskBox");
-
-box.innerHTML = "Predicted Risk: " + risk;
-
-if(risk==="High") box.style.background="red";
-else if(risk==="Medium") box.style.background="orange";
-else box.style.background="green";
-
-}
-
-
-async function updateMap(city,risk){
-
-const geo = await fetch(`https://nominatim.openstreetmap.org/search?city=${city}&format=json`);
-
-const data = await geo.json();
-
-if(data.length===0) return;
-
-const lat = data[0].lat;
-const lon = data[0].lon;
-
-map.setView([lat,lon],12);
-
-if(marker) marker.remove();
-
-let color="green";
-
-if(risk==="High") color="red";
-if(risk==="Medium") color="orange";
-
-marker = L.circleMarker([lat,lon],{
-
-color:color,
-radius:10
-
-}).addTo(map);
-
-}
-
-
-async function loadChart(){
-
-const res = await fetch("/api/analytics");
-
-const data = await res.json();
-
-const ctx = document.getElementById("chart");
-
-if(chart) chart.destroy();
-
-chart = new Chart(ctx,{
-
-type:"pie",
-
-data:{
-
-labels:["Low","Medium","High"],
-
-datasets:[{
-
-data:[data.low,data.medium,data.high]
-
-}]
-
-}
-
-});
-
-}

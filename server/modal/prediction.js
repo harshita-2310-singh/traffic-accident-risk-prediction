@@ -1,18 +1,51 @@
 const mongoose = require("mongoose");
 
-const PredictionSchema = new mongoose.Schema({
+const predictionSchema = new mongoose.Schema({
+  city: {
+    type: String,
+    default: "map-click"
+  },
 
-city:String,
-time:String,
-weather:String,
-road_type:String,
-traffic_density:String,
-risk_level:String,
-created_at:{
-type:Date,
-default:Date.now
-}
+  lat: {
+    type: Number,
+    required: true
+  },
 
+  lon: {
+    type: Number,
+    required: true
+  },
+
+  weather_score: {
+    type: Number,
+    required: true
+  },
+
+  time_score: {
+    type: Number,
+    required: true
+  },
+
+  road_score: {
+    type: Number,
+    required: true
+  },
+
+  accident_score: {
+    type: Number,
+    required: true
+  },
+
+  risk_level: {
+    type: String,
+    enum: ["Low", "Medium", "High"],
+    required: true
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-module.exports = mongoose.model("Prediction",PredictionSchema);
+module.exports = mongoose.model("Prediction", predictionSchema);

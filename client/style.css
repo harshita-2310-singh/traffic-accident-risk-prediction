@@ -1,148 +1,170 @@
+/* GLOBAL */
 body{
-font-family:'Segoe UI',Arial,sans-serif;
-margin:0;
-background:linear-gradient(to bottom,#1abc9c,#3498db,#eef2f7);
-color:#333;
+  font-family:'Segoe UI', Arial, sans-serif;
+  margin:0;
+  background:linear-gradient(to bottom,#1abc9c,#3498db,#eef2f7);
+  color:#333;
 }
 
 /* NAVBAR */
-
 .navbar{
-background:#2c3e50;
-color:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 60px;
+  background:#2c3e50;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 60px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 
 .navbar h1{
-font-size:22px;
+  font-size:22px;
+  letter-spacing:1px;
 }
 
 .navlinks a{
-margin-left:25px;
-text-decoration:none;
-color:white;
-font-weight:500;
+  margin-left:25px;
+  text-decoration:none;
+  color:white;
+  font-weight:500;
+  transition:0.3s;
 }
 
 .navlinks a:hover{
-color:#1abc9c;
+  color:#1abc9c;
 }
 
 /* HERO */
-
 .hero{
-text-align:center;
-padding:100px 20px;
-background:linear-gradient(120deg,#1abc9c,#3498db);
-color:white;
+  text-align:center;
+  padding:100px 20px;
+  background:linear-gradient(120deg,#1abc9c,#3498db);
+  color:white;
 }
 
 .hero h2{
-font-size:40px;
-margin-bottom:20px;
+  font-size:42px;
+  margin-bottom:20px;
 }
 
 .hero p{
-font-size:18px;
-max-width:650px;
-margin:auto;
-line-height:1.6;
+  font-size:18px;
+  max-width:650px;
+  margin:auto;
+  line-height:1.6;
 }
 
 .hero button{
-margin-top:30px;
-padding:14px 35px;
-font-size:18px;
-background:white;
-color:#2c3e50;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
+  margin-top:30px;
+  padding:14px 35px;
+  font-size:18px;
+  background:white;
+  color:#2c3e50;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
 }
 
 .hero button:hover{
-background:#ecf0f1;
+  background:#ecf0f1;
+  transform:scale(1.05);
 }
 
 /* MAIN CONTAINER */
-
 .container{
-max-width:900px;
-margin:auto;
-padding:40px;
+  max-width:900px;
+  margin:auto;
+  padding:40px;
 }
 
 /* CARD */
-
 .card{
-background:#f7fbff;
-padding:35px;
-margin-bottom:30px;
-border-radius:12px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-border-left:5px solid #1abc9c;
+  background:#ffffff;
+  padding:35px;
+  margin-bottom:30px;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.12);
+  border-left:6px solid #1abc9c;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
 }
 
 /* FORM */
-
 form{
-display:flex;
-flex-direction:column;
+  display:flex;
+  flex-direction:column;
 }
 
 label{
-margin-top:15px;
-font-weight:600;
+  margin-top:15px;
+  font-weight:600;
+  font-size:14px;
 }
 
 input,select{
-padding:12px;
-margin-top:5px;
-border-radius:6px;
-border:1px solid #ccc;
-font-size:15px;
+  padding:12px;
+  margin-top:5px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:15px;
+  transition:0.3s;
 }
 
+input:focus,select:focus{
+  outline:none;
+  border-color:#1abc9c;
+  box-shadow:0 0 5px rgba(26,188,156,0.5);
+}
+
+/* BUTTON */
 button{
-margin-top:25px;
-padding:14px;
-font-size:16px;
-background:#1abc9c;
-color:white;
-border:none;
-border-radius:8px;
-cursor:pointer;
+  margin-top:25px;
+  padding:14px;
+  font-size:16px;
+  background:#1abc9c;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
 }
 
 button:hover{
-background:#16a085;
+  background:#16a085;
+  transform:scale(1.03);
 }
 
 /* RESULT BOX */
-
 #riskBox{
-padding:30px;
-font-size:26px;
-color:white;
-text-align:center;
-border-radius:10px;
-margin-top:20px;
+  padding:30px;
+  font-size:26px;
+  color:white;
+  text-align:center;
+  border-radius:12px;
+  margin-top:20px;
+  font-weight:bold;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
 /* MAP */
-
 #map{
-height:350px;
-margin-top:20px;
-border-radius:10px;
+  height:400px;
+  margin-top:20px;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
 /* CHART */
-
 canvas{
-margin-top:20px;
+  margin-top:25px;
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }

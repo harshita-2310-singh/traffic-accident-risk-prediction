@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let marker;
   let chart;
 
-  // =========================
+
   // MAP CLICK → PREDICTION
-  // =========================
+
   map.on("click", async function (e) {
 
     const lat = e.latlng.lat;
@@ -27,11 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          lat,
-          lon,
-          time: "Day"
-        })
+       body: JSON.stringify({  
+      lat,
+      lon,
+     time: "Day"
+   })
       });
 
       const data = await res.json();
@@ -49,9 +49,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // =========================
+ 
   // FORM SUBMIT (CITY INPUT)
-  // =========================
+
   const form = document.getElementById("predictionForm");
 
   if (form) {
@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
+            city,
             lat,
             lon,
             time: "Day"
@@ -109,9 +110,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // =========================
   // SHOW RESULT
-  // =========================
+
   function showRisk(risk) {
     const box = document.getElementById("riskBox");
 
@@ -122,9 +122,9 @@ document.addEventListener("DOMContentLoaded", function () {
     else box.style.background = "green";
   }
 
-  // =========================
+
   // UPDATE MAP
-  // =========================
+
   function updateMap(lat, lon, risk) {
 
     if (marker) marker.remove();
@@ -140,37 +140,53 @@ document.addEventListener("DOMContentLoaded", function () {
     }).addTo(map);
   }
 
-  // =========================
   // LOAD CHART (FROM DB)
-  // =========================
+
   async function loadChart() {
 
-    try {
-      const res = await fetch("/api/analytics");
-      const data = await res.json();
+  try {
+    const res = await fetch("/api/analytics");
+    const data = await res.json();
 
-      const ctx = document.getElementById("chart");
+    const ctx = document.getElementById("chart");
 
-      if (chart) chart.destroy();
+    if (chart) chart.destroy();
 
-      chart = new Chart(ctx, {
-        type: "pie",
-        data: {
-          labels: ["Low", "Medium", "High"],
-          datasets: [{
-            data: [data.low, data.medium, data.high]
-          }]
+    chart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Low", "Medium", "High"],
+        datasets: [{
+          data: [
+            Number(data.percentages.low),
+            Number(data.percentages.medium),
+            Number(data.percentages.high)
+          ]
+        }]
+      },
+      options: {
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label;
+                const percent = context.raw;
+                const count = data.counts[label.toLowerCase()];
+                return `${label}: ${percent}% (${count})`;
+              }
+            }
+          }
         }
-      });
+      }
+    });
 
-    } catch (err) {
-      console.error("Chart error:", err);
-    }
+  } catch (err) {
+    console.error("Chart error:", err);
   }
+}
 
-  // =========================
   // LOAD CHART ON PAGE LOAD
-  // =========================
+ 
   loadChart();
 
 });

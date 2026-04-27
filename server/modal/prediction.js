@@ -1,3 +1,5 @@
+//database schema for prediction data
+
 const mongoose = require("mongoose");
 
 const predictionSchema = new mongoose.Schema({

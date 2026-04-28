@@ -1,11 +1,16 @@
-//database schema for prediction data
-
 const mongoose = require("mongoose");
 
 const predictionSchema = new mongoose.Schema({
+
+  source: {
+    type: String,
+    enum: ["map", "city"],
+    required: true
+  },
+
   city: {
     type: String,
-    default: "map-click"
+    default: null   
   },
 
   lat: {
@@ -48,6 +53,7 @@ const predictionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+
 });
 
 module.exports = mongoose.model("Prediction", predictionSchema);
